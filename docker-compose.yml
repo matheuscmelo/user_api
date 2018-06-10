@@ -1,0 +1,10 @@
+version: '2'
+services:
+    api:
+        build: .
+        container_name: computacao_ufcg-api
+        command: python3 app.py
+        volumes:
+            - ./api/:/var/app/api/
+        ports:
+            - 8000:8000
