@@ -13,9 +13,9 @@ def create_user(username, password):
 		user = User(username, password)
 		db.session.add(user)
 		db.session.commit()
-		return True
+		return True, user
 
-	return False
+	return False, None
 
 def get_user_by_username(username):
 	""" 
@@ -40,19 +40,26 @@ def get_all_users():
 
 	return User.query.all()
 
-def update_user(username, user_data):
+def update_user(user_data):
 	"""
 	updates a user with given user data
 	"""
 
-	user = get_user_by_username(username)
+	user = None
+
+	if "username" in user_data:
+		username = user_data["username"]
+		user = get_user_by_username(username)
 
 	if user:
 		for attr in user_data.keys():
 			if hasattr(user, attr):
 				setattr(user, attr, user_data[attr])
 
-	db.session.commit()
+		db.session.commit()
+		return True, user
+	return False, None
+
 
 def delete_user(id):
 	user = get_user_by_id(id)

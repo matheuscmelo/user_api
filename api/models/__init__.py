@@ -1,7 +1,14 @@
 from db import db
+from flask_restful import fields
+
 
 class User(db.Model):
 	""" defines a user """
+
+	api_fields = {
+					"id" : fields.Integer,
+					"username" : fields.String
+	}
 
 	id = db.Column(db.Integer, primary_key=True)
 	username = db.Column(db.String(80), unique=True, nullable=False)
