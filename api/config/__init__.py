@@ -14,5 +14,5 @@ def define_callbacks(app):
 
 	@app.before_request
 	def verify_json():
-		if not request.is_json:
+		if not request.method == 'GET' and not request.is_json:
 			return jsonify({"message" : "Missing JSON in request"}), 400
