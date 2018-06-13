@@ -3,3 +3,4 @@
 A simple user API in Python, serve as base to more complex applications.
 Uses JWT for authentication and authorization.
 Currently in development.
+
