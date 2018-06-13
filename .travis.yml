@@ -4,4 +4,4 @@ python:
 install:
     - pip3 install -r api/requirements.txt
 script:
-    - python3 api/app.py test
+    - cd api/ && python3 app.py test
