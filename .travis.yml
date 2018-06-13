@@ -1,0 +1,7 @@
+language: python
+python:
+    - "3.6.5"
+install:
+    - pip3 install -r api/requirements.txt
+script:
+    - python3 api/app.py test
