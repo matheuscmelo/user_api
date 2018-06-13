@@ -1,3 +1,4 @@
+from sys import argv
 from flask import Flask, make_response
 from flask_restful import Api
 from flask_cors import CORS
@@ -12,17 +13,24 @@ api = Api(app)
 cors = CORS(app)
 jwt = JWTManager(app)
 
-db.init_app(app)
-app.app_context().push()
-db.create_all(app=app)
-
-# config.jsonify_app(app)
-config.define_callbacks(app)
-
-app.config['JWT_SECRET_KEY'] = 'super-secret'
-
-api.add_resource(LoginController, '/auth')
-api.add_resource(UserCRUDController, '/users', '/users/<id>')
-
 if __name__ == '__main__':
-	app.run(host='0.0.0.0', port=8000, debug=True)
+	if "test" not in argv:
+		db.init_app(app)
+		app.app_context().push()
+		db.create_all(app=app)
+
+		# config.jsonify_app(app)
+		config.define_callbacks(app)
+
+		app.config['JWT_SECRET_KEY'] = 'super-secret'
+
+		api.add_resource(LoginController, '/auth')
+		api.add_resource(UserCRUDController, '/users', '/users/<id>')
+
+		app.run(host='0.0.0.0', port=8000, debug=True)
+	else:
+		import pytest
+		db.init_app(app)
+		app.app_context().push()
+		db.create_all(app=app)
+		pytest.main(['tests'])

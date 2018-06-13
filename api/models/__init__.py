@@ -1,7 +1,6 @@
 from db import db
 from flask_restful import fields
 
-
 class User(db.Model):
 	""" defines a user """
 
@@ -20,3 +19,6 @@ class User(db.Model):
 
 	def __repr__(self):
 		return 'User %r' % self.username
+
+	def __eq__(self, other):
+		return other.username == self.username and other.password == self.password

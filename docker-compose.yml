@@ -4,6 +4,8 @@ services:
         build: .
         container_name: computacao_ufcg-api
         command: python3 app.py
+        environment:
+            - PYTHONPATH=/var/app/api/
         volumes:
             - ./api/:/var/app/api/
         ports:
