@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource, marshal_with
 from db import user_crud
 from models import User
-
+from flask_jwt_extended import get_jwt_identity, jwt_required
 
 class UserCRUDController(Resource):
 	""" handles user Create, Read, Update and Delete operations """
@@ -18,6 +18,7 @@ class UserCRUDController(Resource):
 			return user_crud.get_all_users()
 
 	@marshal_with(User.api_fields)
+	# @jwt_required
 	def post(self):
 		username = request.json.get('username', None)
 		password = request.json.get('password', None)
@@ -29,9 +30,13 @@ class UserCRUDController(Resource):
 			return None
 
 	@marshal_with(User.api_fields)
+	@jwt_required
 	def put(self):
 		data = request.json
+		user = get_jwt_identity()
+		username = data.get('username', None)
 
-		result, user = user_crud.update_user(data)
-
-		return user
+		if username and username == user:
+			result, user = user_crud.update_user(data)
+			return user
+		return None, 403
